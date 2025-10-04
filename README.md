@@ -63,7 +63,8 @@ This generates a default Newton’s fractal image using the configuration from `
 Generate and save 3-root fractal to a file:
 ```bash
 ./newtons_fractal -n 3 -w image.bmp
-``
+```
+
 Render fractal directly in window (viewport.x and viewport.y from -4 to 4, max 40 iterations):
 ```bash
 ./newtons_fractal -v 4 -i 40
