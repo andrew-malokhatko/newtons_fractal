@@ -4,11 +4,12 @@
 
 #include <array>
 #include <complex>
+#include <cstring>
 #include <iostream>
 #include <raylib.h>
 #include <stdexcept>
 
-#define COLORS_SIZE 12
+static constexpr size_t COLORS_SIZE = 12;
 static constexpr std::array<Color, COLORS_SIZE> Colors{
     Color{247, 45, 89, 255},  // Red/Pink
     Color{45, 247, 89, 255},  // Green
@@ -34,22 +35,47 @@ struct ViewPort
 
 struct Config
 {
-    int n = 5;
-    int width = 1000;
-    int height = 1000;
-    ViewPort viewport = {-2.0, 2.0, -2.0, 2.0};
-    int maxIterations = 40;
-    double tolerance = 1e-4;
+    int n = 5;          // number of roots
+    int width = 1000;   // image width
+    int height = 1000;  // image height
+    ViewPort viewport = {-2.0, 2.0, -2.0, 2.0}; // visible complex plane
+    int maxIterations = 40;     // max iterations per pixel
+    double tolerance = 1e-4;    // convergence tolerance (how close must be to a root)
 
-    bool write = false;
-    std::string writePath = "";
+    bool write = false;     // write image to writePath
+    std::string writePath = ""; // name of the saved image
 };
 
+void printHelp()
+{
+    std::cout << "Usage: ./newtons_fractal [options]\n\n"
+              << "Options:\n"
+              << "  -n <int>        Power of the polynomial (solves z^n - 1 = 0).\n"
+              << "  -s <int>        Image size in pixels (sets both width and height).\n"
+              << "  -v <double>     Viewport size (visible area of the complex plane).\n"
+              << "  -i <int>        Maximum iterations per pixel for Newton's method.\n"
+              << "  -t <double>     Convergence tolerance (distance threshold to a root).\n"
+              << "  -w <filename>   Write output image to a file (.bmp format) instead of displaying it.\n"
+              << "  -h, --help      Show this help message and exit.\n\n"
+              << "Examples:\n"
+              << "  ./newtons_fractal -n 3 -s 800 -v 2.5 -i 50 -t 1e-6\n"
+              << "  ./newtons_fractal -n 5 -s 1024 -w output.bmp\n";
+}
+
+// throws std::invalid_argument and std::out_of_range
+// can exit if --help or -h is passed as an argument
 Config parseArgs(int argc, char* argv[])
 {
-    Config conf;
+    Config conf{};
 
-    for (int i = 1; i < argc; ++i)
+    // print help
+    if (argc >= 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0))
+    {
+        printHelp();
+        std::exit(0);
+    }
+
+    for (int i = 1; i < argc; i += 2)
     {
         if (i + 1 >= argc)
         {
@@ -57,15 +83,24 @@ Config parseArgs(int argc, char* argv[])
         }
 
         std::string arg = argv[i];
-        std::string argValue = argv[++i];
+        std::string argValue = argv[i + 1];
 
         if (arg == "-n") // number of roots
         {
             conf.n = std::stoi(argValue);
+            if (conf.n < 1)
+            {
+                throw std::invalid_argument("Invalid number of roots: " + argValue);
+            }
         }
         else if (arg == "-s") // size
         {
             int size = std::stoi(argValue);
+            if (size <= 0)
+            {
+                throw std::invalid_argument("Invalid size: " + argValue);
+            }
+
             conf.width = size;
             conf.height = size;
         }
@@ -80,12 +115,20 @@ Config parseArgs(int argc, char* argv[])
         else if (arg == "-i") // max iterations
         {
             conf.maxIterations = std::stoi(argValue);
+            if (conf.maxIterations <= 0)
+            {
+                throw std::invalid_argument("Invalid iterations: " + argValue);
+            }
         }
         else if (arg == "-t") // tolerance
         {
             conf.tolerance = std::stod(argValue);
+            if (conf.tolerance <= 0)
+            {
+                throw std::invalid_argument("Invalid tolerance: " + argValue);
+            }
         }
-        else if (arg == "-w")
+        else if (arg == "-w")   // write
         {
             conf.write = true;
             conf.writePath = argValue;
@@ -102,14 +145,15 @@ Config parseArgs(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
     // parse input
-    Config conf{};
+    Config conf;
     try
     {
         conf = parseArgs(argc, argv);
     }
-    catch (const std::invalid_argument& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << "\n";
+        printHelp();
         std::exit(1);
     }
 
@@ -161,7 +205,7 @@ int main(int argc, char* argv[])
     else
     {
         disp::Display display(conf.width, conf.height, "Newton's Fractal");
-        display.setFractal(std::move(framebuffer));
+        display.setImage(std::move(framebuffer));
 
         // draw window until it's closed
         while (display.isValid())

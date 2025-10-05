@@ -58,6 +58,7 @@ This generates a default Newton’s fractal image using the configuration from `
 - `-i <int>` - maximum iterations per pixel with Newton's method.
 - `-t <double>` - convergence tolerance (how close a point must be to a root)
 - `-w <filenamee>` - write the image to a file (.bmp format) instead of displaying it.
+- `-h, --help` - Show help message and exit.
 
 ### Examples
 Generate and save 3-root fractal to a file:
