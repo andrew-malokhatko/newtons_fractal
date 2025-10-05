@@ -26,7 +26,7 @@ cd newtons_fractal
 mkdir build
 cd build
 cmake ..
-cmake -- build .
+cmake --build .
 ```
 
 ### Build Options
@@ -40,7 +40,7 @@ cmake .. -DBUILD_TESTS=ON -DUSE_ISPC=OFF
 ```
 
 # Usage
-You can run the program without any arguments:
+You can run the program from the build directory without any arguments:
 ```bash
 ./newtons_fractal
 ```
@@ -79,7 +79,9 @@ On my machine the ISPC ran over **16x faster**:
 - **ISPC**: ~3 seconds
 
 ### Running Tests
-From the `build` directory run:
+Tests are only available if the `BUILD_TESTS` option was enabled during configuration (see [Build Options](#build-options)).
+
+If configuration is correct, from the `build` directory run:
 ```bash
 ctest --verbose
 ```

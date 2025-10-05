@@ -33,15 +33,17 @@ if (BUILD_TESTS)
     enable_testing()
     find_package(GTest REQUIRED)
 
-    add_executable(perf_test tests/PerfTests.cpp
+    add_executable(perf_tests tests/PerfTests.cpp
             compute/Fractal.hpp
             ${FRACTAL_SOURCE}
     )
 
-    target_link_libraries(perf_test PRIVATE
+    target_link_libraries(perf_tests PRIVATE
             GTest::gtest
             GTest::gtest_main
     )
+
+    add_test(NAME PerfTests COMMAND perf_tests)
 endif ()
 
 

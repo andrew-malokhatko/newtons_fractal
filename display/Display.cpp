@@ -11,6 +11,7 @@ Display::Display(int width, int height, std::string windowName)
       m_height(height),
       m_buffer(width * height, {0, 0, 0, 255})
 {
+    SetTraceLogLevel(LOG_WARNING);
     InitWindow(width, height, windowName.c_str());
     SetTargetFPS(FPS);
 
