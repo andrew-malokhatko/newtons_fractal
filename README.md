@@ -8,12 +8,12 @@ The core computation of Newton's method is implemented in two languages:
 - **ISPC**
 
 This allows the program not only to produce fractal images, but also serve as
-a benchmark for comparing the performance of ISCP against C++ implementation.
+a benchmark for comparing performance of ISCP against C++ implementation.
 
 # Dependencies / Requirements
 
-To build `newtons fractal` you need:
-- **[raylib](https://www.raylib.com/)** — for windowing, graphics, and input handling.
+To build `newtons_fractal` you need:
+- **[raylib](https://www.raylib.com/)** — for graphics.
   *(If raylib is not found on your system, it will be automatically downloaded using CMake’s `FetchContent`.)*
 - **[ISPC Compiler](https://ispc.github.io/)** — to build the ISPC implementation.
 - **[GoogleTest (GTest)](https://github.com/google/googletest)** — optional, required only if tests are enabled (`-DBUILD_TESTS=ON`).
@@ -71,7 +71,7 @@ Render fractal directly in window (viewport.x and viewport.y from -4 to 4, max 4
 ```
 
 # Tests
-This project includes performance tests using **GoogleTest(Gtest)** to
+This project includes performance tests using **[GoogleTest (GTest)](https://github.com/google/googletest)** to
 compare the execution speed of the C++ and ISPC implementation.
 
 On my machine the ISPC ran over **16x faster**:
@@ -83,4 +83,4 @@ From the `build` directory run:
 ```bash
 ctest --verbose
 ```
-The `--verbose` flag ensures that detailed output, including timing information, is displayed.
+The `--verbose` flag ensures that timing information is displayed.
