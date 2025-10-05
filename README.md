@@ -13,7 +13,7 @@ a benchmark for comparing performance of ISCP against C++ implementation.
 # Dependencies / Requirements
 
 To build `newtons_fractal` you need:
-- **[raylib](https://www.raylib.com/)** - for graphics.
+- **[raylib](https://www.raylib.com/)** - for graphics. (You can download a prebuilt release from [here](https://github.com/raysan5/raylib/releases))
 - **[ISPC Compiler](https://ispc.github.io/)** - to build the ISPC implementation.
 - **[GoogleTest (GTest)](https://github.com/google/googletest)** - optional, required only if tests are enabled (`-DBUILD_TESTS=ON`).
 
