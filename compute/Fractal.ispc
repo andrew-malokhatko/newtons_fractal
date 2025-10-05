@@ -106,7 +106,7 @@ Complex getDerivative(uniform int n, Complex z)
 
 uniform double pi = 3.141592653589793;
 
-void findRoots(uniform int n, uniform Complex* roots)
+void findRoots(uniform int n, uniform Complex* uniform roots)
 {
     for (uniform int k = 0; k < n; ++k)
     {
@@ -129,9 +129,8 @@ export void computeNewtonFractal(
     uniform double xstep = (xmax - xmin) / width;
     uniform double ystep = (ymax - ymin) / height;
 
-    uniform Complex* roots = new Complex[n];
+    uniform Complex* uniform roots = uniform new Complex[n];
     findRoots(n, roots);
-    //print("Got roots");
 
     for (int row = 0; row < height; ++row)
     {
@@ -183,5 +182,5 @@ export void computeNewtonFractal(
         }
     }
 
-    delete roots;
+    delete[] roots;
 }

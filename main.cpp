@@ -59,17 +59,17 @@ Config parseArgs(int argc, char* argv[])
         std::string arg = argv[i];
         std::string argValue = argv[++i];
 
-        if (arg == "-n")    // number of roots
+        if (arg == "-n") // number of roots
         {
             conf.n = std::stoi(argValue);
         }
-        else if (arg == "-s")   // size
+        else if (arg == "-s") // size
         {
             int size = std::stoi(argValue);
             conf.width = size;
             conf.height = size;
         }
-        else if (arg == "-v")   // viewport
+        else if (arg == "-v") // viewport
         {
             double viewport = std::stod(argValue);
             conf.viewport.minx = -viewport;
@@ -77,11 +77,11 @@ Config parseArgs(int argc, char* argv[])
             conf.viewport.miny = -viewport;
             conf.viewport.maxy = viewport;
         }
-        else if (arg == "-i")    // max iterations
+        else if (arg == "-i") // max iterations
         {
             conf.maxIterations = std::stoi(argValue);
         }
-        else if (arg == "-t")   // tolerance
+        else if (arg == "-t") // tolerance
         {
             conf.tolerance = std::stod(argValue);
         }
@@ -145,6 +145,7 @@ int main(int argc, char* argv[])
 
         framebuffer[i] = pixelColor;
     }
+
     if (conf.write)
     {
         try
