@@ -83,6 +83,6 @@ Tests are only available if the `BUILD_TESTS` option was enabled during configur
 
 If configuration is correct, from the `build` directory run:
 ```bash
-ctest --verbose
+./perf_tests
 ```
 The `--verbose` flag ensures that timing information is displayed.
